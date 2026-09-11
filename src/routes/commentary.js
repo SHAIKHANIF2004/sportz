@@ -85,6 +85,13 @@ commentaryRouter.post("/", async (req, res) => {
       })
       .returning();
 
+    if (res.app.locals.broadcastCommentary) {
+      res.app.locals.broadcastCommentary(
+        insertedCommentary.matchId,
+        insertedCommentary,
+      );
+    }
+
     return res.status(201).json({ data: insertedCommentary });
   } catch (error) {
     return res.status(500).json({
